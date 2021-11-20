@@ -4,7 +4,8 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 function App() {
   return (
     <div className="App">
-      <Header />
+      <Header textButton="Nova transação" />
+      <GlobalStyle />
     </div>
   );
 }
