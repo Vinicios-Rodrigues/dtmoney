@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import Colors from "./Colors";
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -47,7 +48,6 @@ q:before, q:after {
 	content: none;
 }
 table {
-	border-collapse: collapse;
 	border-spacing: 0;
 }
 
@@ -64,6 +64,7 @@ html{
 body{
     box-sizing: border-box;
     -web-kit-font-smooth: atialiased;
+    background: ${Colors.background};
 }
 body, input, textarea, button{
     font-family: 'Poppins', sans-serif;
