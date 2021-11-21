@@ -4,6 +4,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import Modal from "react-modal";
 import { useState } from "react";
 
+Modal.setAppElement("#root");
 function App() {
   const [isNewtransactionsOpen, setIsNewtransactionsOpen] = useState(false);
 
@@ -13,7 +14,10 @@ function App() {
 
   return (
     <div className="App">
-      <Header textButton="Nova transação" />
+      <Header
+        onOpenNewTransactionModal={() => setIsNewtransactionsOpen(true)}
+        textButton="Nova transação"
+      />
       <Dashboard />
       <Modal
         isOpen={isNewtransactionsOpen}

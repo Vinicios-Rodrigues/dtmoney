@@ -3,13 +3,16 @@ import logoImg from "../../assets/logo.svg";
 
 interface props {
   textButton: string;
+  onOpenNewTransactionModal: () => void;
 }
-export const Header = (props: props) => {
+export const Header = ({ textButton, onOpenNewTransactionModal }: props) => {
   return (
     <S.Container>
       <S.Wrapper>
         <img src={logoImg} alt="logo" />
-        <S.Button>{props.textButton}</S.Button>
+        <S.Button onClick={() => onOpenNewTransactionModal()}>
+          {textButton}
+        </S.Button>
       </S.Wrapper>
     </S.Container>
   );
