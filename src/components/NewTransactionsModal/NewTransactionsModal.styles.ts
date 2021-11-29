@@ -1,4 +1,4 @@
-import { darken } from "polished";
+import { darken, transparentize } from "polished";
 import styled from "styled-components";
 import Colors from "../../styles/Colors";
 
@@ -47,21 +47,6 @@ export const ContainerButtonType = styled.div`
   margin-top: 0.5rem;
   width: 100%;
 
-  button {
-    height: 3rem;
-    background: transparent;
-    border: 1px solid #d7d7d7d7;
-    border-radius: 0.25rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      border-color: ${darken(0.15, "#d7d7d7d7")};
-    }
-  }
-
   img {
     width: 1.5rem;
     height: 1.5rem;
@@ -69,6 +54,29 @@ export const ContainerButtonType = styled.div`
   span {
     display: inline-block;
     margin-left: 0.5rem;
+  }
+`;
+
+interface propType {
+  isActive: boolean;
+  activeColor: "red" | "green";
+}
+
+export const ButtonType = styled.button<propType>`
+  height: 3rem;
+  background: ${(props) =>
+    props.isActive
+      ? transparentize(0.85, Colors[props.activeColor])
+      : "transparent"};
+  border: 1px solid #d7d7d7d7;
+  border-radius: 0.25rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-color: ${darken(0.15, "#d7d7d7d7")};
   }
 `;
 
