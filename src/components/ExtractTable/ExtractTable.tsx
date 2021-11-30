@@ -1,11 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import * as S from "./ExtractTable.styles";
 
+interface transactions {
+  title: string;
+  amount: number;
+  category: string;
+  type: string;
+  createdAt: string;
+  id: number;
+}
+
 export const ExtractTable = () => {
+  const [transactions, setTransactions] = useState<transactions[]>([]);
   useEffect(() => {
     api("http://localhost:3000/api/transactions").then((response) =>
-      console.log(response.data)
+      setTransactions(response.data.transactions)
     );
   }, []);
   return (
@@ -20,18 +30,14 @@ export const ExtractTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Desevolvimento</td>
-            <td className="deposit">R$ 12.0000</td>
-            <td>Venda</td>
-            <td>15/01/2002</td>
-          </tr>
-          <tr>
-            <td>Hamburguer</td>
-            <td className="widthdraw">R$ -50,00</td>
-            <td>Food</td>
-            <td>15/01/2002</td>
-          </tr>
+          {transactions.map((add) => (
+            <tr key={add.id}>
+              <td>{add.title}</td>
+              <td className={add.type}>{add.amount}</td>
+              <td>{add.category}</td>
+              <td>{add.createdAt}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </S.Container>

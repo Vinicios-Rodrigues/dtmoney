@@ -22,8 +22,7 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
   const [value, setValue] = useState(0);
   const [category, setCategory] = useState("");
 
-
-  // adiciona os dados das transações 
+  // adiciona os dados das transações
   function handleCreatNewTransiction(event: FormEvent) {
     event.preventDefault();
 
@@ -90,6 +89,3 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
     </Modal>
   );
 };
-function data(arg0: string, data: any) {
-  throw new Error("Function not implemented.");
-}
