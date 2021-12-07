@@ -1,9 +1,9 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Modal from "react-modal";
 import closed from "../../assets/close.svg";
 import inCome from "../../assets/income.svg";
 import outCome from "../../assets/outcome.svg";
-import { api } from "../../services/api";
+import { TransactionsContext } from "../../TransactionsContext";
 import * as S from "./NewTransactionsModal.styles";
 
 // inicia o modal dentro da #root
@@ -15,21 +15,43 @@ interface props {
   onRequestClose: () => void;
 }
 export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
-  const [type, setType] = useState("deposit");
+  const [type, setType] = useState("c");
+
+  // contexto, origem da função que cria uma nova transação
+  const { createTransaction } = useContext(TransactionsContext);
 
   // estado dos valores dos inputs do Modal
-  const [nome, setName] = useState("");
-  const [value, setValue] = useState(0);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
 
-  // adiciona os dados das transações
-  function handleCreatNewTransiction(event: FormEvent) {
+  // aguarda a funçao executar, adiciona os dados das transações e fecha o modal
+  async function handleCreatNewTransiction(event: FormEvent) {
     event.preventDefault();
 
-    //inserindo dados na api
-    const data = { type, nome, value, category };
-    api.post("/transactions", data);
+    await createTransaction({
+      title,
+      amount,
+      category,
+      type,
+    });
+
+    setTitle("");
+    setAmount(0);
+    setCategory("");
+    setType("deposit");
+    onRequestClose();
   }
+  function handleSetTypeDeposit(event: FormEvent) {
+    event.preventDefault();
+    setType("deposit");
+  }
+
+  function handleSetTypeWithDraw(event: FormEvent) {
+    event.preventDefault();
+    setType("withdraw");
+  }
+
   return (
     <Modal
       overlayClassName="react-modal-overlay"
@@ -47,20 +69,20 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
         <S.Input
           type="text"
           placeholder="Nome"
-          value={nome}
-          onChange={(event) => setName(event.target.value)}
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
         />
 
         <S.Input
           type="number"
           placeholder="Valor"
-          value={value}
-          onChange={(event) => setValue(Number(event.target.value))}
+          value={amount}
+          onChange={(event) => setAmount(Number(event.target.value))}
         />
 
         <S.ContainerButtonType>
           <S.ButtonType
-            onClick={() => setType("deposit")}
+            onClick={handleSetTypeDeposit}
             isActive={type === "deposit"}
             activeColor="green"
           >
@@ -69,7 +91,7 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
           </S.ButtonType>
 
           <S.ButtonType
-            onClick={() => setType("withdraw")}
+            onClick={handleSetTypeWithDraw}
             isActive={type === "withdraw"}
             activeColor="red"
           >

@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
-import { api } from "../../services/api";
+import { useContext } from "react";
+import { TransactionsContext } from "../../TransactionsContext";
 import * as S from "./ExtractTable.styles";
 
-interface transactions {
-  title: string;
-  amount: number;
-  category: string;
-  type: string;
-  createdAt: string;
-  id: number;
-}
-
 export const ExtractTable = () => {
-  const [transactions, setTransactions] = useState<transactions[]>([]);
-  useEffect(() => {
-    api("http://localhost:3000/api/transactions").then((response) =>
-      setTransactions(response.data.transactions)
-    );
-  }, []);
+  const { transactions } = useContext(TransactionsContext);
+
   return (
     <S.Container>
       <table>
@@ -33,9 +20,18 @@ export const ExtractTable = () => {
           {transactions.map((add) => (
             <tr key={add.id}>
               <td>{add.title}</td>
-              <td className={add.type}>{add.amount}</td>
+              <td className={add.type}>
+                {new Intl.NumberFormat("PT-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(add.amount)}
+              </td>
               <td>{add.category}</td>
-              <td>{add.createdAt}</td>
+              <td>
+                {new Intl.DateTimeFormat("PT-BR").format(
+                  new Date(add.createdAt)
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
