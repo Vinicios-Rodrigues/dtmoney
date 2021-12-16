@@ -16,10 +16,10 @@ interface transaction {
 
 type transactionIput = Omit<transaction, "id" | "createdAt">;
 
+//funções assincronas recebem Promisse por padrão e temos que tipa-los
 interface contextprops {
   transactions: transaction[];
   createTransaction: (transaction: transactionIput) => Promise<void>;
-  // funções assincronas recebem um Promisse por padrão, então temos que tipa-los
 }
 
 export const TransactionsContext = createContext<contextprops>(

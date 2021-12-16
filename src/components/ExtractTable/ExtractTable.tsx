@@ -4,7 +4,6 @@ import * as S from "./ExtractTable.styles";
 
 export const ExtractTable = () => {
   const { transactions } = useContext(TransactionsContext);
-
   return (
     <S.Container>
       <table>
@@ -17,19 +16,19 @@ export const ExtractTable = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((add) => (
-            <tr key={add.id}>
-              <td>{add.title}</td>
-              <td className={add.type}>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.title}</td>
+              <td className={transaction.type}>
                 {new Intl.NumberFormat("PT-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(add.amount)}
+                }).format(transaction.amount)}
               </td>
-              <td>{add.category}</td>
+              <td>{transaction.category}</td>
               <td>
                 {new Intl.DateTimeFormat("PT-BR").format(
-                  new Date(add.createdAt)
+                  new Date(transaction.createdAt)
                 )}
               </td>
             </tr>

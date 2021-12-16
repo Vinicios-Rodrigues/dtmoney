@@ -42,7 +42,7 @@ export const Input = styled.input`
 
 export const ContainerButtonType = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin-top: 0.5rem;
   width: 100%;
@@ -68,6 +68,7 @@ export const ButtonType = styled.button<propType>`
     props.isActive
       ? transparentize(0.85, Colors[props.activeColor])
       : "transparent"};
+
   border: 1px solid #d7d7d7d7;
   border-radius: 0.25rem;
 
@@ -81,8 +82,8 @@ export const ButtonType = styled.button<propType>`
 `;
 
 export const ButtonSubmit = styled.button`
-  width: 101%;
-  height: 3rem;
+  width: 100%;
+  height: 4rem;
   background: ${Colors.green};
   color: ${Colors.white};
   margin-top: 0.5rem;

@@ -15,12 +15,12 @@ interface props {
   onRequestClose: () => void;
 }
 export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
-  const [type, setType] = useState("c");
-
-  // contexto, origem da função que cria uma nova transação
+  // contexto, origem da função que cria uma nova transação #Contexto
   const { createTransaction } = useContext(TransactionsContext);
 
   // estado dos valores dos inputs do Modal
+
+  const [type, setType] = useState("");
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
@@ -30,28 +30,18 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
     event.preventDefault();
 
     await createTransaction({
-      title,
       amount,
       category,
       type,
+      title,
     });
 
+    setType("deposit");
     setTitle("");
     setAmount(0);
     setCategory("");
-    setType("deposit");
     onRequestClose();
   }
-  function handleSetTypeDeposit(event: FormEvent) {
-    event.preventDefault();
-    setType("deposit");
-  }
-
-  function handleSetTypeWithDraw(event: FormEvent) {
-    event.preventDefault();
-    setType("withdraw");
-  }
-
   return (
     <Modal
       overlayClassName="react-modal-overlay"
@@ -82,18 +72,24 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
 
         <S.ContainerButtonType>
           <S.ButtonType
-            onClick={handleSetTypeDeposit}
+            onClick={() => {
+              setType("deposit");
+            }}
             isActive={type === "deposit"}
             activeColor="green"
+            type="button"
           >
             <img src={inCome} alt="" />
             <span>Entrada</span>
           </S.ButtonType>
 
           <S.ButtonType
-            onClick={handleSetTypeWithDraw}
+            onClick={() => {
+              setType("withdraw");
+            }}
             isActive={type === "withdraw"}
             activeColor="red"
+            type="button"
           >
             <img src={outCome} alt="" />
             <span>Saida</span>
@@ -106,6 +102,7 @@ export const NewTransactionsModal = ({ isOpen, onRequestClose }: props) => {
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
+
         <S.ButtonSubmit type="submit">Cadastrar</S.ButtonSubmit>
       </S.Container>
     </Modal>
